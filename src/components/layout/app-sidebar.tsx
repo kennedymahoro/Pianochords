@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { Home, Music, Settings, BookOpen, Layers } from "lucide-react"
+import Image from "next/image"
 
 import {
     Sidebar,
@@ -50,8 +51,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <Sidebar {...props}>
             <SidebarHeader>
                 <div className="flex items-center gap-2 px-4 py-2">
-                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                        <Music className="size-4" />
+                    <div className="flex aspect-square size-8 items-center justify-center rounded-lg text-primary-foreground">
+                        <Image
+                            src="/piano_img.png"
+                            alt="Piano Chord Modern Logo"
+                            width={32}
+                            height={32}
+                            className="rounded-sm"
+                        />
                     </div>
                     <div className="flex flex-col gap-0.5 leading-none">
                         <span className="font-semibold">PianoChord</span>
