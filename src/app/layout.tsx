@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "PianoChord Modern",
+  title: "Piano Key",
   description: "Interactive piano chord visualization",
 };
 
