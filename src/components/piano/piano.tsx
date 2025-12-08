@@ -31,7 +31,7 @@ export function Piano() {
 
     return (
         <div className="w-full overflow-x-auto">
-            <div className="flex justify-center p-4">
+            <div className="flex justify-center p-4 min-w-max">
                 {keys.map((key) => (
                     <Key
                         key={key.midi}
