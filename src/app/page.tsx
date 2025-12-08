@@ -12,11 +12,11 @@ export default function Home() {
           <TheoryPanel />
         </div>
         <div className="md:col-span-8 lg:col-span-9 flex flex-col gap-4">
-          <div className="rounded-xl border bg-card text-card-foreground shadow-sm p-6 flex items-center justify-center min-h-[300px]">
-            <Piano />
-          </div>
           <div className="rounded-xl border bg-card text-card-foreground shadow-sm p-6">
             <CircleOfFifths />
+          </div>
+          <div className="rounded-xl border bg-card text-card-foreground shadow-sm p-6 min-h-[300px]">
+            <Piano />
           </div>
         </div>
       </div>

@@ -14,9 +14,9 @@ export function Piano() {
         setSelectedNotes(notes)
     }, [root, type, inversion, setSelectedNotes])
 
-    // Generate keys for 2 octaves starting from C3 (48) to C5 (72)
-    const startMidi = 48
-    const endMidi = 72
+    // Generate keys for 4 octaves starting from C2 (36) to C6 (84)
+    const startMidi = 36
+    const endMidi = 84
     const keys = []
 
     for (let i = startMidi; i <= endMidi; i++) {
