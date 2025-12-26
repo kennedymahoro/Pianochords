@@ -5,33 +5,66 @@ import { Key } from "./key"
 import { useChordStore } from "@/store/useChordStore"
 import { getChordNotes, getNoteName } from "@/lib/music/chord-logic"
 
+const WHITE_KEY_WIDTH = 58; // w-14 is 56px, plus 1px border on each side.
+
 export function Piano() {
     const { root, type, inversion, selectedNotes, setSelectedNotes } = useChordStore()
+    const pianoContainerRef = React.useRef<HTMLDivElement>(null);
+    const [numberOfWhiteKeys, setNumberOfWhiteKeys] = React.useState(29); // Default for 49 keys
 
     React.useEffect(() => {
         const notes = getChordNotes(root, type, inversion)
         setSelectedNotes(notes)
     }, [root, type, inversion, setSelectedNotes])
 
-    // Generate keys for 4 octaves starting from C2 (36) to C6 (84)
-    const startMidi = 36
-    const endMidi = 84
+    React.useEffect(() => {
+        const calculateKeys = () => {
+            if (pianoContainerRef.current) {
+                const containerWidth = pianoContainerRef.current.offsetWidth;
+                // p-4 on the child div means 1rem (16px) padding on each side. Total 32px.
+                const availableWidth = containerWidth - 32;
+                const numWhiteKeys = Math.floor(availableWidth / WHITE_KEY_WIDTH);
+                setNumberOfWhiteKeys(numWhiteKeys);
+            }
+        };
+
+        const resizeObserver = new ResizeObserver(calculateKeys);
+        const currentRef = pianoContainerRef.current;
+        if (currentRef) {
+            resizeObserver.observe(currentRef);
+        }
+
+        calculateKeys(); // Initial calculation
+
+        return () => {
+            if (currentRef) {
+                resizeObserver.unobserve(currentRef);
+            }
+        };
+    }, []);
+
+    const startMidi = 36 // C2
     const keys = []
-
-    for (let i = startMidi; i <= endMidi; i++) {
-        const noteName = getNoteName(i)
-        const isBlack = noteName.includes("#") || noteName.includes("b")
-
+    
+    let whiteKeyCount = 0;
+    let midi = startMidi;
+    while(whiteKeyCount < numberOfWhiteKeys) {
+        const noteName = getNoteName(midi);
+        const isBlack = noteName.includes("#") || noteName.includes("b");
+        if (!isBlack) {
+            whiteKeyCount++;
+        }
         keys.push({
-            midi: i,
+            midi: midi,
             note: noteName,
             isBlack,
-        })
+        });
+        midi++;
     }
 
     return (
-        <div className="w-full">
-            <div className="flex flex-wrap justify-center p-4">
+        <div className="w-full overflow-hidden" ref={pianoContainerRef}>
+            <div className="flex justify-center p-4">
                 {keys.map((key) => (
                     <Key
                         key={key.midi}
