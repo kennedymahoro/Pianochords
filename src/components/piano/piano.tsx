@@ -21,10 +21,13 @@ export function Piano() {
         const calculateKeys = () => {
             if (pianoContainerRef.current) {
                 const containerWidth = pianoContainerRef.current.offsetWidth;
-                // p-4 on the child div means 1rem (16px) padding on each side. Total 32px.
-                const availableWidth = containerWidth - 32;
-                const numWhiteKeys = Math.floor(availableWidth / WHITE_KEY_WIDTH);
-                setNumberOfWhiteKeys(numWhiteKeys);
+                // Only calculate if container has a width
+                if (containerWidth > 0) {
+                    // p-4 on the child div means 1rem (16px) padding on each side. Total 32px.
+                    const availableWidth = containerWidth - 32;
+                    const numWhiteKeys = Math.floor(availableWidth / WHITE_KEY_WIDTH);
+                    setNumberOfWhiteKeys(numWhiteKeys);
+                }
             }
         };
 
@@ -48,7 +51,8 @@ export function Piano() {
     
     let whiteKeyCount = 0;
     let midi = startMidi;
-    while(whiteKeyCount < numberOfWhiteKeys) {
+    // Guard against an infinite loop if getNoteName doesn't behave as expected.
+    while(whiteKeyCount < numberOfWhiteKeys && midi < 128) {
         const noteName = getNoteName(midi);
         const isBlack = noteName.includes("#") || noteName.includes("b");
         if (!isBlack) {
