@@ -46,7 +46,7 @@ export function Piano() {
         };
     }, []);
 
-    const startMidi = 24 // C1
+    const startMidi = 12 // C0
     const keys = []
     
     let whiteKeyCount = 0;
