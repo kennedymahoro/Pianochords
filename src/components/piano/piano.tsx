@@ -13,9 +13,10 @@ export function Piano() {
     const [numberOfWhiteKeys, setNumberOfWhiteKeys] = React.useState(29); // Default for 49 keys
 
     React.useEffect(() => {
-        const notes = getChordNotes(root - 24, type, inversion) // Transpose down two octaves
-        setSelectedNotes(notes)
-    }, [root, type, inversion, setSelectedNotes])
+        const notes = getChordNotes(root, type, inversion);
+        const transposedNotes = notes.map(note => note - 12); // Transpose down one octave
+        setSelectedNotes(transposedNotes);
+    }, [root, type, inversion, setSelectedNotes]);
 
     React.useEffect(() => {
         const calculateKeys = () => {
