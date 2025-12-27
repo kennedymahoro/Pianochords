@@ -11,45 +11,42 @@ const KEYS = [
 export function CircleOfFifths() {
     const { root, setRoot } = useChordStore()
 
-    // Calculate rotation to put C at top (or selected key at top?)
-    // Standard circle of fifths has C at top.
-
-    const radius = 120
-    const center = 150
+    const radius = 80
+    const center = 100
 
     return (
         <div className="flex flex-col items-center justify-center p-4">
             <h3 className="mb-4 text-lg font-semibold">Circle of Fifths</h3>
-            <svg width="300" height="300" viewBox="0 0 300 300" className="max-w-full">
+            <svg width="200" height="200" viewBox="0 0 200 200" className="max-w-full">
                 <circle cx={center} cy={center} r={radius} fill="none" stroke="currentColor" strokeWidth="2" className="text-muted-foreground/20" />
-
                 {KEYS.map((key, i) => {
-                    const angle = (i * 30 - 90) * (Math.PI / 180)
+                    const angle = (i / KEYS.length) * 2 * Math.PI - Math.PI / 2
                     const x = center + radius * Math.cos(angle)
                     const y = center + radius * Math.sin(angle)
-
-                    const isSelected = root === key || (root === "C#" && key === "Db") || (root === "D#" && key === "Eb") || (root === "F#" && key === "Gb") || (root === "G#" && key === "Ab") || (root === "A#" && key === "Bb")
-                    // Simple normalization for MVP
+                    const isSelected = root === key
 
                     return (
-                        <g key={key} onClick={() => setRoot(key as any)} className="cursor-pointer group">
+                        <g
+                            key={key}
+                            transform={`translate(${x}, ${y})`}
+                            className="cursor-pointer"
+                            onClick={() => setRoot(key)}
+                        >
                             <circle
-                                cx={x}
-                                cy={y}
-                                r="20"
+                                r="15"
                                 className={cn(
-                                    "transition-all duration-200",
-                                    isSelected ? "fill-primary stroke-primary" : "fill-background stroke-border hover:fill-muted"
+                                    "fill-background stroke-muted-foreground/20",
+                                    isSelected && "fill-primary stroke-primary-foreground"
                                 )}
-                                strokeWidth="2"
+                                strokeWidth="1"
                             />
                             <text
-                                x={x}
-                                y={y}
-                                dy="0.3em"
+                                x="0"
+                                y="0"
+                                dy=".3em"
                                 textAnchor="middle"
                                 className={cn(
-                                    "text-sm font-bold select-none pointer-events-none",
+                                    "text-sm font-medium",
                                     isSelected ? "fill-primary-foreground" : "fill-foreground"
                                 )}
                             >
