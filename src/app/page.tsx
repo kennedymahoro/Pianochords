@@ -7,15 +7,15 @@ import { Shell } from "@/components/layout/shell";
 export default function Home() {
   return (
     <Shell>
-      <div className="grid h-full grid-cols-1 gap-8 lg:grid-cols-2">
-        <div className="flex flex-col gap-8">
-          <ChordControls />
-          <CircleOfFifths />
-          <div className="flex-1">
-            <TheoryPanel className="h-full" />
+      <div className="h-full w-full grid grid-rows-[1fr_auto] gap-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="flex flex-col gap-8">
+            <ChordControls />
+            <CircleOfFifths />
           </div>
+          <TheoryPanel />
         </div>
-        <div className="flex flex-col justify-end">
+        <div>
           <Piano />
         </div>
       </div>
