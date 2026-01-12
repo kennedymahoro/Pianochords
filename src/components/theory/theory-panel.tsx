@@ -11,21 +11,20 @@ import {
 import { CHORD_TYPES, INTERVAL_NAMES } from "@/lib/music/constants";
 import { getChordNoteNames } from "@/lib/music/chord-logic";
 import { useSettingsStore } from "@/store/useSettingsStore";
-import { cn } from "@/lib/utils";
 
-export function TheoryPanel({ className }: { className?: string }) {
+export function TheoryPanel() {
     const { root, type, inversion } = useChordStore();
     const { accidentalType } = useSettingsStore();
     const chordInfo = CHORD_TYPES[type];
 
     if (!chordInfo) {
         return (
-            <Card className={cn("flex flex-col", className)}>
+            <Card>
                 <CardHeader>
                     <CardTitle>Theory Breakdown</CardTitle>
                     <CardDescription>Select a chord to see details.</CardDescription>
                 </CardHeader>
-                <CardContent className="flex-1">
+                <CardContent>
                     <p>No chord selected.</p>
                 </CardContent>
             </Card>
@@ -35,11 +34,11 @@ export function TheoryPanel({ className }: { className?: string }) {
     const chordNotes = getChordNoteNames(root, type, inversion, accidentalType);
 
     return (
-        <Card className={cn("flex flex-col", className)}>
+        <Card>
             <CardHeader>
                 <CardTitle>Theory Breakdown</CardTitle>
             </CardHeader>
-            <CardContent className="grid flex-1 gap-6">
+            <CardContent className="grid gap-6">
                 <div className="grid grid-cols-2 gap-4">
                     <div>
                         <div className="text-sm font-medium text-muted-foreground">Chord</div>
