@@ -1,4 +1,4 @@
-import { CHORD_TYPES, ChordType, NOTES, NOTES_FLAT, Note } from "./constants";
+import { AccidentalType, CHORD_TYPES, ChordType, NOTES, NOTES_FLAT, Note } from "./constants";
 
 const MIDI_ROOT_C = 60; // C4
 
@@ -34,7 +34,23 @@ export function getChordNotes(
     return notes;
 }
 
-export function getNoteName(midi: number): string {
-    const noteIndex = midi % 12;
-    return NOTES[noteIndex]; // Default to sharps for now, can make configurable
+export function getNoteName(midiNote: number, accidentalType: AccidentalType = "sharps"): string {
+    const noteIndex = midiNote % 12;
+    const octave = Math.floor(midiNote / 12) - 1;
+
+    const noteNameArray = accidentalType === 'sharps' ? NOTES : NOTES_FLAT;
+    const noteName = noteNameArray[noteIndex];
+
+    return `${noteName}${octave}`;
+}
+
+export function getChordNoteNames(
+    root: Note,
+    type: ChordType,
+    inversion: number = 0,
+    accidentalType: AccidentalType = "sharps"
+): string[] {
+    const midiNotes = getChordNotes(root, type, inversion);
+    // We want the note name without the octave for this display
+    return midiNotes.map(note => getNoteName(note, accidentalType).replace(/\d/g, ''));
 }

@@ -1,25 +1,24 @@
-import { Piano } from "@/components/piano/piano";
-import { TheoryPanel } from "@/components/theory/theory-panel";
 import { ChordControls } from "@/components/theory/chord-controls";
 import { CircleOfFifths } from "@/components/theory/circle-of-fifths";
+import { Piano } from "@/components/piano/piano";
+import { TheoryPanel } from "@/components/theory/theory-panel";
+import { Shell } from "@/components/layout/shell";
 
 export default function Home() {
   return (
-    <div className="flex flex-1 flex-col">
-      <div className="grid gap-4 p-4 md:grid-cols-12">
-        <div className="md:col-span-4 lg:col-span-3 space-y-4">
+    <Shell>
+      <div className="grid h-full grid-cols-1 gap-8 lg:grid-cols-2">
+        <div className="flex flex-col gap-8">
           <ChordControls />
-          <div className="rounded-xl border bg-card text-card-foreground shadow-sm p-6">
-            <CircleOfFifths />
+          <CircleOfFifths />
+          <div className="flex-1">
+            <TheoryPanel className="h-full" />
           </div>
         </div>
-        <div className="md:col-span-8 lg:col-span-9 flex flex-col gap-4">
-          <TheoryPanel />
+        <div className="flex flex-col justify-end">
+          <Piano />
         </div>
       </div>
-      <div className="rounded-xl border bg-card text-card-foreground shadow-sm min-h-[300px]">
-        <Piano />
-      </div>
-    </div>
+    </Shell>
   );
 }
