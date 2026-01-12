@@ -1,24 +1,12 @@
 import { create } from "zustand";
-import { persist } from "zustand/middleware";
+import { AccidentalType } from "@/lib/music/constants";
 
 interface SettingsState {
-    theme: "light" | "dark" | "system";
-    accidentalPreference: "sharp" | "flat";
-    setTheme: (theme: "light" | "dark" | "system") => void;
-    setAccidentalPreference: (pref: "sharp" | "flat") => void;
+    accidentalType: AccidentalType;
+    setAccidentalType: (type: AccidentalType) => void;
 }
 
-export const useSettingsStore = create<SettingsState>()(
-    persist(
-        (set) => ({
-            theme: "system",
-            accidentalPreference: "sharp",
-            setTheme: (theme) => set({ theme }),
-            setAccidentalPreference: (accidentalPreference) =>
-                set({ accidentalPreference }),
-        }),
-        {
-            name: "user-settings",
-        }
-    )
-);
+export const useSettingsStore = create<SettingsState>((set) => ({
+    accidentalType: "sharps",
+    setAccidentalType: (type) => set({ accidentalType: type }),
+}));

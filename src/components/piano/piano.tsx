@@ -4,11 +4,13 @@ import * as React from "react"
 import { Key } from "./key"
 import { useChordStore } from "@/store/useChordStore"
 import { getChordNotes, getNoteName } from "@/lib/music/chord-logic"
+import { useSettingsStore } from "@/store/useSettingsStore"
 
 const WHITE_KEY_WIDTH = 58; // w-14 is 56px, plus 1px border on each side.
 
 export function Piano() {
     const { root, type, inversion, selectedNotes, setSelectedNotes } = useChordStore()
+    const { accidentalType } = useSettingsStore();
     const pianoContainerRef = React.useRef<HTMLDivElement>(null);
     const [numberOfWhiteKeys, setNumberOfWhiteKeys] = React.useState(29); // Default for 49 keys
 
@@ -49,12 +51,12 @@ export function Piano() {
 
     const startMidi = 36 // C2
     const keys = []
-    
+
     let whiteKeyCount = 0;
     let midi = startMidi;
     // Guard against an infinite loop if getNoteName doesn't behave as expected.
     while(whiteKeyCount < numberOfWhiteKeys && midi < 128) {
-        const noteName = getNoteName(midi);
+        const noteName = getNoteName(midi, accidentalType);
         const isBlack = noteName.includes("#") || noteName.includes("b");
         if (!isBlack) {
             whiteKeyCount++;
