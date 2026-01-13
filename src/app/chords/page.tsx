@@ -3,7 +3,6 @@
 
 import { Piano } from "@/components/piano/piano";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useChordStore } from "@/store/useChordStore";
 import { useState, useEffect } from "react";
 import { CHORD_TYPES } from "@/lib/music/constants";
@@ -37,29 +36,23 @@ export default function ChordsPage() {
       <div className="grid md:grid-cols-2 gap-8 mb-8">
         <div>
           <h3 className="text-xl font-bold mb-2">Shapes</h3>
-          <Select value={selectedShape} onValueChange={setSelectedShape}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select shape" />
-            </SelectTrigger>
-            <SelectContent>
-              {chordShapes.map(shape => (
-                <SelectItem key={shape} value={shape}>{`${selectedKey}${shape}`}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="flex flex-wrap gap-2">
+            {chordShapes.map(shape => (
+              <Button key={shape} onClick={() => setSelectedShape(shape)} variant={selectedShape === shape ? 'default' : 'outline'}>
+                {`${selectedKey}${shape}`}
+              </Button>
+            ))}
+          </div>
         </div>
         <div>
           <h3 className="text-xl font-bold mb-2">Voicings</h3>
-          <Select value={selectedVoicing} onValueChange={setSelectedVoicing}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select voicing" />
-            </SelectTrigger>
-            <SelectContent>
-              {chordVoicings.map(voicing => (
-                <SelectItem key={voicing} value={voicing}>{voicing}</SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <div className="flex flex-wrap gap-2">
+            {chordVoicings.map(voicing => (
+              <Button key={voicing} onClick={() => setSelectedVoicing(voicing)} variant={selectedVoicing === voicing ? 'default' : 'outline'}>
+                {voicing}
+              </Button>
+            ))}
+          </div>
         </div>
       </div>
       <div className="mb-8">
