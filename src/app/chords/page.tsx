@@ -25,40 +25,44 @@ export default function ChordsPage() {
   }, [selectedKey, selectedShape, selectedVoicing, setRoot, setType, setInversion]);
 
   return (
-    <div className="p-8">
-      <div className="flex flex-wrap gap-2 mb-8">
-        {keys.map(key => (
-          <Button key={key} onClick={() => setSelectedKey(key)} variant={selectedKey === key ? 'default' : 'outline'}>
-            {key}
-          </Button>
-        ))}
-      </div>
-      <div className="grid md:grid-cols-2 gap-8 mb-8">
-        <div>
-          <h3 className="text-xl font-bold mb-2">Shapes</h3>
-          <div className="flex flex-wrap gap-2">
-            {chordShapes.map(shape => (
-              <Button key={shape} onClick={() => setSelectedShape(shape)} variant={selectedShape === shape ? 'default' : 'outline'}>
-                {`${selectedKey}${shape}`}
-              </Button>
-            ))}
+    <div className="h-full w-full grid grid-rows-[1fr_auto] gap-8 py-8">
+      <div>
+        <div className="flex flex-wrap gap-2 mb-8">
+          {keys.map(key => (
+            <Button key={key} onClick={() => setSelectedKey(key)} variant={selectedKey === key ? 'default' : 'outline'}>
+              {key}
+            </Button>
+          ))}
+        </div>
+        <div className="grid md:grid-cols-2 gap-8 mb-8">
+          <div>
+            <h3 className="text-xl font-bold mb-2">Shapes</h3>
+            <div className="flex flex-wrap gap-2">
+              {chordShapes.map(shape => (
+                <Button key={shape} onClick={() => setSelectedShape(shape)} variant={selectedShape === shape ? 'default' : 'outline'}>
+                  {`${selectedKey}${shape}`}
+                </Button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <h3 className="text-xl font-bold mb-2">Voicings</h3>
+            <div className="flex flex-wrap gap-2">
+              {chordVoicings.map(voicing => (
+                <Button key={voicing} onClick={() => setSelectedVoicing(voicing)} variant={selectedVoicing === voicing ? 'default' : 'outline'}>
+                  {voicing}
+                </Button>
+              ))}
+            </div>
           </div>
         </div>
-        <div>
-          <h3 className="text-xl font-bold mb-2">Voicings</h3>
-          <div className="flex flex-wrap gap-2">
-            {chordVoicings.map(voicing => (
-              <Button key={voicing} onClick={() => setSelectedVoicing(voicing)} variant={selectedVoicing === voicing ? 'default' : 'outline'}>
-                {voicing}
-              </Button>
-            ))}
-          </div>
+        <div className="mb-8">
+          <h2 className="text-2xl font-bold">{`${selectedKey}${selectedShape}`}</h2>
         </div>
       </div>
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold">{`${selectedKey}${selectedShape}`}</h2>
+      <div>
+        <Piano />
       </div>
-      <Piano />
     </div>
   );
 }
