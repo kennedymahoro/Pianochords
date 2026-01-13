@@ -24,17 +24,34 @@ export const RELATIVE_MAJOR_FLATS = {
 };
 
 export const CHORD_TYPES = {
-    major: { name: "Major", intervals: [0, 4, 7] },
-    minor: { name: "Minor", intervals: [0, 3, 7] },
-    diminished: { name: "Diminished", intervals: [0, 3, 6] },
-    augmented: { name: "Augmented", intervals: [0, 4, 8] },
+    maj: { name: "Major", intervals: [0, 4, 7] },
+    m: { name: "Minor", intervals: [0, 3, 7] },
+    7: { name: "Dominant 7th", intervals: [0, 4, 7, 10] },
+    m7: { name: "Minor 7th", intervals: [0, 3, 7, 10] },
     maj7: { name: "Major 7th", intervals: [0, 4, 7, 11] },
-    min7: { name: "Minor 7th", intervals: [0, 3, 7, 10] },
-    dom7: { name: "Dominant 7th", intervals: [0, 4, 7, 10] },
+    mM7: { name: "Minor Major 7th", intervals: [0, 3, 7, 11] },
+    6: { name: "Major 6th", intervals: [0, 4, 7, 9] },
+    m6: { name: "Minor 6th", intervals: [0, 3, 7, 9] },
+    "6/9": { name: "6/9", intervals: [0, 4, 7, 9, 14] },
+    5: { name: "Power Chord", intervals: [0, 7] },
+    9: { name: "Dominant 9th", intervals: [0, 4, 7, 10, 14] },
+    m9: { name: "Minor 9th", intervals: [0, 3, 7, 10, 14] },
+    maj9: { name: "Major 9th", intervals: [0, 4, 7, 11, 14] },
+    11: { name: "Dominant 11th", intervals: [0, 4, 7, 10, 14, 17] },
+    m11: { name: "Minor 11th", intervals: [0, 3, 7, 10, 14, 17] },
+    maj11: { name: "Major 11th", intervals: [0, 4, 7, 11, 14, 17] },
+    13: { name: "Dominant 13th", intervals: [0, 4, 7, 10, 14, 21] },
+    m13: { name: "Minor 13th", intervals: [0, 3, 7, 10, 14, 21] },
+    maj13: { name: "Major 13th", intervals: [0, 4, 7, 11, 14, 21] },
+    add: { name: "Add 9", intervals: [0, 4, 7, 14] },
+    "7-5": { name: "Dominant 7th flat 5", intervals: [0, 4, 6, 10] },
+    "7+5": { name: "Dominant 7th sharp 5", intervals: [0, 4, 8, 10] },
+    sus: { name: "Suspended 4th", intervals: [0, 5, 7] },
+    dim: { name: "Diminished", intervals: [0, 3, 6] },
     dim7: { name: "Diminished 7th", intervals: [0, 3, 6, 9] },
-    halfdim7: { name: "Half Diminished 7th", intervals: [0, 3, 6, 10] },
-    sus2: { name: "Suspended 2nd", intervals: [0, 2, 7] },
-    sus4: { name: "Suspended 4th", intervals: [0, 5, 7] },
+    m7b5: { name: "Half Diminished 7th", intervals: [0, 3, 6, 10] },
+    aug: { name: "Augmented", intervals: [0, 4, 8] },
+    aug7: { name: "Augmented 7th", intervals: [0, 4, 8, 10] }
 } as const;
 
 export type ChordType = keyof typeof CHORD_TYPES;

@@ -14,7 +14,7 @@ interface ChordState {
 
 export const useChordStore = create<ChordState>((set) => ({
     root: "C",
-    type: "major",
+    type: "maj",
     inversion: 0,
     selectedNotes: [],
     setRoot: (root) => set({ root }),
