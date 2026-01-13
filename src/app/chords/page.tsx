@@ -4,6 +4,7 @@
 import { Piano } from "@/components/piano/piano";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Chord } from "tonal";
 
 const keys = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
 const chordCategories = ['maj', 'm', '7', 'm7', 'maj7', 'mM7', '6', 'm6', '6/9', '5', '9', 'm9', 'maj9', '11', 'm11', 'maj11', '13', 'm13', 'maj13', 'add', '7-5', '7+5', 'sus', 'dim', 'dim7', 'm7b5', 'aug', 'aug7'];
@@ -14,11 +15,17 @@ export default function ChordsPage() {
 
   const handleKeyChange = (key: string) => {
     setSelectedKey(key);
-    setSelectedChord(`${key}maj`);
+    const newChord = `${key}maj`;
+    setSelectedChord(newChord);
   }
 
   const handleChordChange = (chord: string) => {
     setSelectedChord(chord);
+  }
+
+  const getChordNotes = () => {
+    const chord = Chord.get(selectedChord);
+    return chord.notes.map(note => `${note}4`);
   }
 
   return (
@@ -37,7 +44,7 @@ export default function ChordsPage() {
           </Button>
         ))}
       </div>
-      <Piano />
+      <Piano highlightedNotes={getChordNotes()} />
     </div>
   );
 }
