@@ -107,12 +107,6 @@ export default function ChordProgressionBuilder() {
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 p-4 md:p-8 flex flex-col">
-      <header className="flex-shrink-0 mb-8">
-        <h1 className="text-3xl md:text-4xl font-bold text-center text-slate-800">
-          Chord Progression Builder
-        </h1>
-      </header>
-
       <main className="flex-grow grid grid-cols-1 md:grid-cols-3 gap-8">
         <Card className="md:col-span-1 bg-white">
           <CardHeader>
