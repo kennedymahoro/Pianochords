@@ -17,6 +17,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Piano Key",
   description: "Interactive piano chord visualization",
+  icons: {
+    icon: "/piano_img.png",
+  },
 };
 
 export default function RootLayout({
