@@ -56,8 +56,8 @@ export default function ChordsPage() {
             </div>
           </div>
         </div>
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold">{`${selectedKey}${selectedShape}`}</h2>
+        <div className="mb-8 text-center">
+          <h2 className="text-4xl font-bold p-4 border-2 border-gray-500 rounded-lg inline-block">{`${selectedKey}${selectedShape}`}</h2>
         </div>
       </div>
       <div>
