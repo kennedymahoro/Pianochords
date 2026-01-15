@@ -1,0 +1,266 @@
+
+'use client';
+
+import { useState, useEffect, useRef } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import {
+  Play,
+  Pause,
+  RotateCw,
+  Plus,
+  Music,
+  ChevronDown,
+  ChevronUp,
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import * as Tone from 'tone';
+import { Chord, RomanNumeral } from 'tonal';
+import PianoStrip from './components/PianoStrip';
+
+const allChords = ['Cmaj7', 'Dm7', 'G7', 'Am7', 'Fmaj7', 'Em7', 'Bm7b5', 'C', 'G', 'Am', 'F'];
+
+const vibeRecommendations = {
+  Pop: ['C', 'G', 'Am', 'F'],
+  Jazz: ['Dm7', 'G7', 'Cmaj7'],
+  Blues: ['G7', 'C7', 'F7'],
+  Dark: ['Bm7b5', 'E7', 'Am'],
+  Epic: ['Fmaj7', 'G', 'Am'],
+};
+
+export default function ChordProgressionBuilder() {
+  const [progression, setProgression] = useState(Array(4).fill(null));
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [bpm, setBpm] = useState(120);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [vibe, setVibe] = useState('Pop');
+  const [theoryExpanded, setTheoryExpanded] = useState(false);
+  const [currentKey, setCurrentKey] = useState('C');
+
+  const synth = useRef(null);
+
+  useEffect(() => {
+    synth.current = new Tone.PolySynth(Tone.Synth, {
+      oscillator: {
+        type: 'fmsquare',
+        modulationType: 'sawtooth',
+        modulationIndex: 3,
+        harmonicity: 3.4,
+      },
+      envelope: {
+        attack: 0.001,
+        decay: 0.1,
+        sustain: 0.1,
+        release: 0.1,
+      },
+    }).toDestination();
+  }, []);
+
+  useEffect(() => {
+    const loop = new Tone.Sequence(
+      (time, chord) => {
+        if (chord) {
+          synth.current.triggerAttackRelease(Chord.get(chord).notes.map(n => n + '4'), '8n', time);
+        }
+      },
+      progression,
+      '4n'
+    );
+    loop.start(0);
+    Tone.Transport.bpm.value = bpm;
+
+    return () => {
+      loop.dispose();
+    };
+  }, [progression, bpm]);
+
+  const togglePlayback = () => {
+    if (Tone.Transport.state === 'started') {
+      Tone.Transport.pause();
+      setIsPlaying(false);
+    } else {
+      Tone.Transport.start();
+      setIsPlaying(true);
+    }
+  };
+
+  const addChordToProgression = (chord) => {
+    const nextEmptySlot = progression.findIndex((c) => c === null);
+    if (nextEmptySlot !== -1) {
+      const newProgression = [...progression];
+      newProgression[nextEmptySlot] = chord;
+      setProgression(newProgression);
+    }
+  };
+
+  const removeChordFromProgression = (index) => {
+    const newProgression = [...progression];
+    newProgression[index] = null;
+    setProgression(newProgression);
+  };
+
+  const getRomanNumeral = (chordName) => {
+    if (!chordName) return '';
+    try {
+      const roman = RomanNumeral.fromChord(currentKey, Chord.get(chordName));
+      return roman;
+    } catch (e) {
+      return '';
+    }
+  };
+  
+  const filteredChords = allChords.filter((c) =>
+    c.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    <div className="min-h-screen bg-zinc-900 text-white p-4 md:p-8 flex flex-col">
+      <header className="flex-shrink-0 mb-8">
+        <h1 className="text-3xl md:text-4xl font-bold text-center text-indigo-400">
+          Chord Progression Builder
+        </h1>
+      </header>
+
+      <main className="flex-grow flex flex-col md:flex-row gap-8">
+        <div className="w-full md:w-1/4">
+          <Card className="bg-zinc-800 border-zinc-700">
+            <CardContent className="p-4">
+              <Input
+                placeholder="Search chords..."
+                className="bg-zinc-700 border-zinc-600 text-white mb-4"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <Select onValueChange={setVibe} defaultValue={vibe}>
+                  <SelectTrigger className="w-full bg-zinc-700 border-zinc-600 text-white mb-4">
+                    <SelectValue placeholder="Select a vibe" />
+                  </SelectTrigger>
+                  <SelectContent className="bg-zinc-700 border-zinc-600 text-white">
+                    {Object.keys(vibeRecommendations).map((vibe) => (
+                      <SelectItem key={vibe} value={vibe} className="hover:bg-indigo-500">
+                        {vibe}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              <div className="space-y-2 max-h-96 overflow-y-auto">
+                {filteredChords.map((chord) => (
+                  <Button
+                    key={chord}
+                    variant="ghost"
+                    className={`w-full justify-start ${vibeRecommendations[vibe].includes(chord) ? 'text-indigo-400 font-bold' : ''}`}
+                    onClick={() => addChordToProgression(chord)}
+                  >
+                    {chord}
+                  </Button>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="flex-grow">
+          <div className="mb-8">
+            <AnimatePresence>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {progression.map((chord, index) => (
+                  <motion.div
+                    key={index}
+                    layout
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.8, opacity: 0 }}
+                    className="relative flex flex-col"
+                  >
+                    <Card
+                      className={`flex-grow flex flex-col items-center justify-center bg-zinc-800 border-zinc-700 rounded-b-none ${!chord ? 'border-dashed' : ''}`}
+                    >
+                      {chord ? (
+                        <>
+                          <p className="text-2xl font-bold text-indigo-400">
+                            {chord}
+                          </p>
+                          <p className="text-sm text-zinc-400">{getRomanNumeral(chord)}</p> 
+                          <button
+                            onClick={() => removeChordFromProgression(index)}
+                            className="absolute top-2 right-2 text-zinc-400 hover:text-white"
+                          >
+                            &times;
+                          </button>
+                        </>
+                      ) : (
+                        <Plus className="text-zinc-500" />
+                      )}
+                    </Card>
+                    <PianoStrip chordName={chord} />
+                  </motion.div>
+                ))}
+              </div>
+            </AnimatePresence>
+          </div>
+
+          <Card className="bg-zinc-800 border-zinc-700 mt-8">
+            <CardContent className="p-4">
+              <div
+                className="flex justify-between items-center cursor-pointer"
+                onClick={() => setTheoryExpanded(!theoryExpanded)}
+              >
+                <div className="flex items-center">
+                  <Music className="mr-2 text-indigo-400" />
+                  <h3 className="text-lg font-semibold">Functional Harmony</h3>
+                </div>
+                {theoryExpanded ? <ChevronUp /> : <ChevronDown />}
+              </div>
+              <AnimatePresence>
+                {theoryExpanded && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <p className="mt-4 text-zinc-400">
+                      This appears to be a I-V-vi-IV progression in C Major, one of the most common and popular progressions in music.
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </CardContent>
+          </Card>
+        </div>
+      </main>
+
+      <footer className="sticky bottom-0 mt-8 py-4 bg-zinc-900/80 backdrop-blur-sm border-t border-zinc-800">
+        <div className="max-w-4xl mx-auto flex items-center justify-center gap-6">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={togglePlayback}
+          >
+            {isPlaying ? (
+              <Pause className="text-indigo-400 h-6 w-6" />
+            ) : (
+              <Play className="text-indigo-400 h-6 w-6" />
+            )}
+          </Button>
+          <div className="flex items-center gap-2">
+            <p className="text-sm">{bpm} BPM</p>
+            <Input
+              type="range"
+              min="60"
+              max="220"
+              value={bpm}
+              onChange={(e) => setBpm(Number(e.target.value))}
+              className="w-32 accent-indigo-500"
+            />
+          </div>
+          <Button variant="ghost" size="icon" onClick={() => Tone.Transport.loop = !Tone.Transport.loop}>
+            <RotateCw className={`text-indigo-400 h-6 w-6 ${Tone.Transport.loop ? 'text-green-400' : ''}`} />
+          </Button>
+        </div>
+      </footer>
+    </div>
+  );
+}
