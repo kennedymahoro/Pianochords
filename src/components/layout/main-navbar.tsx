@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export function MainNavbar() {
   return (
@@ -7,6 +8,13 @@ export function MainNavbar() {
       <div className="container mx-auto flex h-16 items-center justify-between">
         <div className="flex gap-6 md:gap-10">
           <Link href="/" className="flex items-center space-x-2">
+            <Image
+              src="/piano_img.png"
+              alt="PianoKey Logo"
+              width={32}
+              height={32}
+              className="rounded-sm"
+            />
             <span className="inline-block font-bold">PianoKey</span>
           </Link>
         </div>
