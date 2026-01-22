@@ -13,10 +13,10 @@ export function MainNavbar() {
         </div>
         <div className="flex flex-1 items-center justify-end space-x-4">
           <nav className="flex items-center space-x-1">
-            <Link href="/about">
+            <Link href="/#about">
               <Button variant="ghost">About</Button>
             </Link>
-            <Link href="/contact">
+            <Link href="/#contact">
               <Button variant="ghost">Contact</Button>
             </Link>
             <Link href="/login">
