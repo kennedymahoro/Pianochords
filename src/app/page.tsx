@@ -13,7 +13,7 @@ export default function Home() {
     <div>
       <MainNavbar />
       <div className="container mx-auto flex items-center justify-between min-h-[calc(100vh-8rem)]">
-        <div className="w-1/2 pr-8">
+        <div className="w-2/5 pr-8">
           <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4 text-left">
             Unlock Your Musical Potential
           </h1>
@@ -26,12 +26,12 @@ export default function Home() {
             </Link>
           </div>
         </div>
-        <div className="w-1/2">
+        <div className="w-3/5">
           <Image
             src="/Piano-bg.png"
             alt="Piano Background"
-            width={800} 
-            height={600}
+            width={1200}
+            height={900}
             className=""
           />
         </div>
