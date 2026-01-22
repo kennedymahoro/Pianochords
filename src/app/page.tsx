@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import Image from "next/image";
 import { MainNavbar } from "@/components/layout/main-navbar";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -11,17 +12,28 @@ export default function Home() {
   return (
     <div>
       <MainNavbar />
-      <div className="container mx-auto flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] text-center">
-        <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
-          Unlock Your Musical Potential
-        </h1>
-        <p className="max-w-[700px] text-lg md:text-xl text-muted-foreground mb-8">
-          An interactive piano chord visualization tool to help you learn and explore music theory.
-        </p>
-        <div className="flex gap-4">
-          <Link href="/login">
-            <Button size="lg">Get Started</Button>
-          </Link>
+      <div className="container mx-auto flex items-center justify-between min-h-[calc(100vh-8rem)]">
+        <div className="w-1/2 pr-8">
+          <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4 text-left">
+            Unlock Your Musical Potential
+          </h1>
+          <p className="max-w-[700px] text-lg md:text-xl text-muted-foreground mb-8 text-left">
+            An interactive piano chord visualization tool to help you learn and explore music theory.
+          </p>
+          <div className="flex gap-4">
+            <Link href="/login">
+              <Button size="lg">Get Started</Button>
+            </Link>
+          </div>
+        </div>
+        <div className="w-1/2">
+          <Image
+            src="/Piano-bg.png"
+            alt="Piano Background"
+            width={800} 
+            height={600}
+            className=""
+          />
         </div>
       </div>
 
