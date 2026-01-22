@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <div>
       <MainNavbar />
-      <div className="container flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] text-center">
+      <div className="container mx-auto flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] text-center">
         <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
           Unlock Your Musical Potential
         </h1>
