@@ -19,7 +19,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import * as Tone from 'tone';
 import { Chord, RomanNumeral, Key } from 'tonal';
-import PianoStrip from './components/PianoStrip';
+import PianoStrip from '@/components/PianoStrip';
 
 const allChords = ['Cmaj7', 'Dm7', 'G7', 'Am7', 'Fmaj7', 'Em7', 'Bm7b5', 'C', 'G', 'Am', 'F'];
 

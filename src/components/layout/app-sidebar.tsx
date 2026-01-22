@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { usePathname } from "next/navigation"
 import { Home, Music, Settings, BookOpen, Layers } from "lucide-react"
 import Image from "next/image"
 
@@ -24,10 +25,14 @@ const navMain = [
         icon: Home,
     },
     {
+        title: "Learn",
+        url: "/learn",
+        icon: Music,
+    },
+    {
         title: "Chords",
         url: "/chords",
         icon: Music,
-        isActive: true,
     },
     {
         title: "Theory",
@@ -47,6 +52,7 @@ const navMain = [
 ]
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+    const pathname = usePathname()
     return (
         <Sidebar {...props}>
             <SidebarHeader>
@@ -73,7 +79,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                         <SidebarMenu>
                             {navMain.map((item) => (
                                 <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton asChild isActive={item.isActive}>
+                                    <SidebarMenuButton asChild isActive={pathname === item.url}>
                                         <a href={item.url}>
                                             <item.icon />
                                             <span>{item.title}</span>

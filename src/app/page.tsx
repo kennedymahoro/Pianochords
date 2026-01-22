@@ -1,20 +1,24 @@
-import { ChordControls } from "@/components/theory/chord-controls";
-import { CircleOfFifths } from "@/components/theory/circle-of-fifths";
-import { Piano } from "@/components/piano/piano";
-import { TheoryPanel } from "@/components/theory/theory-panel";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="h-full w-full grid grid-rows-[1fr_auto] gap-8 py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="flex flex-col gap-8">
-          <ChordControls />
-          <CircleOfFifths />
-        </div>
-        <TheoryPanel />
-      </div>
-      <div>
-        <Piano />
+    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-8rem)] text-center p-4">
+      <h1 className="text-4xl md:text-6xl font-bold tracking-tighter mb-4">
+        Unlock Your Musical Potential
+      </h1>
+      <p className="max-w-[700px] text-lg md:text-xl text-muted-foreground mb-8">
+        An interactive piano chord visualization tool to help you learn and explore music theory.
+      </p>
+      <div className="flex gap-4">
+        <Link href="/login">
+          <Button size="lg">Login</Button>
+        </Link>
+        <Link href="#">
+          <Button size="lg" variant="outline">
+            Sign Up
+          </Button>
+        </Link>
       </div>
     </div>
   );
